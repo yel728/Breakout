@@ -117,6 +117,9 @@ extension GameScene {
         }
         paddle.position.x = max(paddle.position.x, -self.size.width/2.0+paddle.size.width/2.0)
         paddle.position.x = min(paddle.position.x, self.size.width/2.0-paddle.size.width/2.0)
+        if firstTime {
+            ball.position.x = paddle.position.x
+        }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -126,10 +129,16 @@ extension GameScene {
         }
         paddle.position.x = max(paddle.position.x, -self.size.width/2.0+paddle.size.width/2.0)
         paddle.position.x = min(paddle.position.x, self.size.width/2.0-paddle.size.width/2.0)
+        if firstTime {
+            ball.position.x = paddle.position.x
+        }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+        if firstTime {
+            ball.physicsBody?.applyImpulse(CGVector(dx: 30, dy: 20))
+            firstTime = false
+        }
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
